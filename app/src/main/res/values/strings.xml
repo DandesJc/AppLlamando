@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Llamando</string>
+    <string name="Activity2">Ir la actividad 2</string>
+    <string name="google">Ir a Google</string>
+    <string name="Alarma">Crear Alarmas</string>
+    <string name="Llamar">Llamar</string>
+</resources>
