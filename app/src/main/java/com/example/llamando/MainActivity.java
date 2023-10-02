@@ -11,7 +11,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button google, alarma, llamar;
+    Button google, alarma, llamar, facebook, instagram;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
         google = findViewById(R.id.Google);
         alarma = findViewById(R.id.Alarma);
         llamar = findViewById(R.id.Llamar);
+        facebook = findViewById(R.id.facebook);
+        instagram = findViewById(R.id.instagram);
 
         google.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +59,36 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(llamando);
                 }
 
+            }
+        });
+
+        llamar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String phoneNumber;
+                Intent llamando = new Intent(Intent.ACTION_DIAL);
+                llamando.setData(Uri.parse("tel:"+ "2125551212"));
+                if (llamando.resolveActivity(getPackageManager())!=null) {
+                    startActivity(llamando);
+                }
+
+            }
+        });
+        facebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToFacebook = new Intent(Intent.ACTION_VIEW);
+                goToFacebook.setData(Uri.parse("http://www.facebook.com"));
+                startActivity(goToFacebook);
+            }
+        });
+
+        instagram.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent goToInstagram = new Intent(Intent.ACTION_VIEW);
+                goToInstagram.setData(Uri.parse("http://www.instagram.com"));
+                startActivity(goToInstagram);
             }
         });
     }
