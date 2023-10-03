@@ -6,12 +6,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.AlarmClock;
+import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button google, alarma, llamar, facebook, instagram;
+    Button google, alarma, llamar, calendario, temporizador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
         google = findViewById(R.id.Google);
         alarma = findViewById(R.id.Alarma);
         llamar = findViewById(R.id.Llamar);
-        facebook = findViewById(R.id.facebook);
-        instagram = findViewById(R.id.instagram);
+        calendario = findViewById(R.id.calendario);
+        temporizador = findViewById(R.id.temporizador);
 
         google.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,22 +75,42 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        facebook.setOnClickListener(new View.OnClickListener() {
+        calendario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goToFacebook = new Intent(Intent.ACTION_VIEW);
-                goToFacebook.setData(Uri.parse("http://www.facebook.com"));
-                startActivity(goToFacebook);
+                addEvent("Estudiar", "Medellin", 10, 11);
             }
+            public void addEvent(String title, String location, long begin, long end) {
+                Intent intent = new Intent(Intent.ACTION_INSERT)
+                        .setData(CalendarContract.Events.CONTENT_URI)
+                        .putExtra(CalendarContract.Events.TITLE, title)
+                        .putExtra(CalendarContract.Events.EVENT_LOCATION, location)
+                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, begin)
+                        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+
         });
 
-        instagram.setOnClickListener(new View.OnClickListener() {
+        temporizador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent goToInstagram = new Intent(Intent.ACTION_VIEW);
-                goToInstagram.setData(Uri.parse("http://www.instagram.com"));
-                startActivity(goToInstagram);
+                startTimer("Ejercicio", 20);
             }
+
+            public void startTimer(String message, int seconds) {
+                Intent intent = new Intent(AlarmClock.ACTION_SET_TIMER)
+                        .putExtra(AlarmClock.EXTRA_MESSAGE, message)
+                        .putExtra(AlarmClock.EXTRA_LENGTH, seconds)
+                        .putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+                if (intent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(intent);
+                }
+            }
+
         });
+
     }
 }
